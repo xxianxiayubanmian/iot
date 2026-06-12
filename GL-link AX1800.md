@@ -60,7 +60,7 @@ In summary, this issue is an **authenticated command injection leading to full r
 
 
 
-![image-20260613024832130](C:/Users/ming/Desktop/md/cve/GL-link%20AX1800/image-20260613024832130.png)
+![image-20260613024832130](/image-20260613024832130.png)
 
 ![image-20260613024845052](C:/Users/ming/Desktop/md/cve/GL-link%20AX1800/image-20260613024845052.png)
 
